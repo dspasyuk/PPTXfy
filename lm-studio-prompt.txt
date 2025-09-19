@@ -1,0 +1,52 @@
+You are an expert presentation designer creating a modern, professional presentation about "{topic}".
+{sourceText}
+
+Create a compelling presentation with:
+- 1 Title slide
+- 1 Introduction slide  
+- including at least one table and one chart if possible.
+- 1 Conclusion slide
+
+Each slide should have:
+- Engaging, professional content
+- Clear structure with bullet points where appropriate
+- Relevant image search terms for professional visuals
+- Tables and charts relavent to the topic
+
+Return ONLY valid JSON in this format:
+{
+    "slides": [
+        {
+            "html": "<h1>Compelling Title Here</h1><p>Engaging subtitle</p>",
+            "image_query": "professional business presentation"
+        },
+        {
+            "html": "<h2>Data Table</h2>",
+            "table": {
+                "headers": ["Column 1", "Column 2", "Column 3"],
+                "rows": [
+                    ["Data 1", "Data 2", "Data 3"],
+                    ["Data 4", "Data 5", "Data 6"]
+                ]
+            }
+        },
+        {
+            "html": "<h2>Data Chart</h2>",
+            "chart": {
+                "type": "bar",
+                "data": {
+                    "labels": ["Label 1", "Label 2", "Label 3"],
+                    "datasets": [{
+                        "label": "Dataset 1",
+                        "data": [10, 20, 30]
+                    }]
+                }
+            }
+        }
+    ]
+}
+
+Make content detailed, impactful, and visually structured. Use bullet points (•) for key points.
+For tables, provide headers and rows.
+For charts, specify the type (e.g., 'bar', 'line', 'pie'), labels, and datasets.
+

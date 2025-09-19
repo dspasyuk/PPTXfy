@@ -1,0 +1,33 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.slide-preview-container {
+    height: calc(100vh - 50px);
+    border: none;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+#slide-preview {
+    border: none;
+}
+
+.card {
+    border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+.btn-primary {
+    background-color: #6f42c1;
+    border-color: #6f42c1;
+}
+
+.btn-primary:hover {
+    background-color: #5a3d9a;
+    border-color: #5a3d9a;
+}
+
+.spinner-border {
+    width: 1.5rem;
+    height: 1.5rem;
+}

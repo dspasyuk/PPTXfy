@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Presentation Generator</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-color: #667eea;
+            --text-dark: #2d3748;
+            --text-light: #4a5568;
+            --bg-light: #f7fafc;
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--text-dark);
+            display: flex;
+        }
+
+        .main-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            padding: 1.5rem;
+        }
+
+        .control-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow-y: auto;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-floating {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control, .form-select {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+            background: #fff;
+        }
+
+        .btn-generate {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .btn-generate:disabled {
+            opacity: 0.6;
+            transform: none;
+            cursor: not-allowed;
+        }
+        .btn-outline-secondary{
+            border-color: #c3cfe2;
+           
+        }
+
+        .btn-download {
+            background: var(--secondary-gradient);
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .preview-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e2e8f0;
+            flex-shrink: 0;
+        }
+
+        .preview-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .slide-frame {
+            border: none;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            background: #f8f9fa;
+            flex-grow: 1;
+        }
+
+        .loading-spinner {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-xl);
+            backdrop-filter: blur(10px);
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .file-status {
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="row g-4 w-100">
+            <!-- Control Panel -->
+            <div class="col-lg-3">
+                <div class="control-panel">
+                    <h3 class="mb-4">
+                        <i class="fas fa-cog text-primary me-2"></i>
+                        Configuration
+                    </h3>
+                    
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="topic" placeholder="Enter your presentation topic">
+                        <label for="topic">
+                            <i class="fas fa-lightbulb me-2"></i>Presentation Topic
+                        </label>
+                    </div>
+
+                    <div class="form-floating">
+                        <select class="form-select" id="ai-model">
+                            <option value="Gemini">Gemini Pro</option>
+                            <option value="LMStudio">LM Studio</option>
+                        </select>
+                        <label for="ai-model">
+                            <i class="fas fa-robot me-2"></i>AI Model
+                        </label>
+                    </div>
+
+                    <div class="form-floating">
+                        <select class="form-select" id="template">
+                            <option value="Default">Modern Blue</option>
+                            <option value="Dark">Dark Theme</option>
+                            <option value="Light">Light & Clean</option>
+                            <option value="Blue">Professional Blue</option>
+                        </select>
+                        <label for="template">
+                            <i class="fas fa-paint-brush me-2"></i>Design Template
+                        </label>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="file-input" class="form-label">
+                            <i class="fas fa-file-upload me-2"></i>Upload Source Document (Optional)
+                        </label>
+                        <div class="input-group">
+                            <input type="file" class="form-control" id="file-input" accept=".txt,.doc,.docx,.pdf">
+                            <button class="btn btn-outline-secondary" type="button"  id="clear-file-btn" >
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div id="file-status" class="file-status">No file selected.</div>
+                    </div>
+
+                    <div class="d-grid gap-3 mt-auto">
+                        <button type="button" class="btn btn-generate" id="generate-btn">
+                            <i class="fas fa-magic me-2"></i>Generate Slides
+                        </button>
+                        <button type="button" class="btn btn-download" id="download-btn">
+                            <i class="fas fa-download me-2"></i>Download PPTX
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview Area -->
+            <div class="col-lg-9">
+                <div class="preview-container">
+                    <div class="preview-header">
+                        <h3 class="preview-title">
+                            <i class="fas fa-eye"></i>
+                            Live Preview
+                        </h3>
+                        <div class="d-flex gap-2">
+                            <span class="badge bg-primary">16:9 Aspect Ratio</span>
+                            <span class="badge bg-success">Interactive</span>
+                        </div>
+                    </div>
+                    <iframe id="slide-preview" class="slide-frame"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="loading-spinner">
+        <div class="spinner"></div>
+        <div class="text-center">
+            <h5 class="mb-2">Creating Your Presentation</h5>
+            <p class="text-muted mb-0">This may take a few moments...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="static/js/echarts.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/pptxgen.bundle.js"></script>
+    <script src="static/js/main.js"></script>
+</body>
+</html>
