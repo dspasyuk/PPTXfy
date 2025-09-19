@@ -2,7 +2,7 @@
 
 **Automatically Generate Beautiful PowerPoint Presentations Using AI**
 
-PPTXfy is a modern web application that transforms topics and documents into professional PowerPoint presentations using AI. Upload your documents, enter a topic, and let AI create stunning slides with automatic image integration.
+PPTXfy is a web application that transforms topics and documents into professional PowerPoint presentations using AI. Upload your documents, enter a topic, and let AI create stunning slides with automatic image integration.
 
 ## Features
 
